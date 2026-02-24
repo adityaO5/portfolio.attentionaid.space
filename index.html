@@ -50,46 +50,27 @@
   .amb-1 { width:700px;height:700px; background:radial-gradient(circle,rgba(201,169,110,0.065) 0%,transparent 70%); top:-200px;right:-150px; }
   .amb-2 { width:500px;height:500px; background:radial-gradient(circle,rgba(201,169,110,0.04) 0%,transparent 70%); bottom:10%;left:-150px; }
 
- /* ── CURSOR (desktop only) ── */
+ /* ── CURSOR ── */
 * { cursor: none !important; }
-
 #custom-cursor {
   position: fixed;
-  width: 0;
-  height: 0;
-  border-left: 8px solid transparent;
-  border-right: 8px solid transparent;
-  border-bottom: 18px solid var(--accent);
+  top: 0;
+  left: 0;
+  width: 14px;
+  height: 18px;
+  background: #c9a96e;
+  clip-path: polygon(0% 0%, 85% 35%, 42% 42%, 35% 85%);
   pointer-events: none;
   z-index: 99999;
-  transform: rotate(135deg);
-  top: 0; left: 0;
-  transition: border-bottom-color 0.2s ease;
-  filter: drop-shadow(0 0 4px rgba(201,169,110,0.5));
+  filter: drop-shadow(0 1px 5px rgba(201,169,110,0.55));
+  transition: background 0.2s, filter 0.2s;
 }
-
-#custom-cursor-dot {
-  position: fixed;
-  width: 4px;
-  height: 4px;
-  background: var(--accent2);
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 100000;
-  top: 0; left: 0;
-  transform: translate(-50%, -50%);
-  transition: transform 0.15s ease, background 0.2s ease;
-}
-
 #custom-cursor.hovering {
-  border-bottom-color: var(--accent2);
-  filter: drop-shadow(0 0 8px rgba(232,213,176,0.7));
+  background: #e8d5b0;
+  filter: drop-shadow(0 0 10px rgba(232,213,176,0.8));
 }
-
-#custom-cursor-dot.hovering {
-  transform: translate(-50%, -50%) scale(2);
-}
-
+#custom-cursor-dot { display: none; }
+  
   /* ── NAV ── */
   nav {
     position:fixed; top:0;left:0;right:0; z-index:500;
@@ -521,7 +502,6 @@
 <div class="amb amb-1"></div>
 <div class="amb amb-2"></div>
 <div id="custom-cursor"></div>
-<div id="custom-cursor-dot"></div>
 
 <!-- NAV -->
 <nav>
@@ -841,5 +821,26 @@ if(!window.matchMedia('(prefers-reduced-motion:reduce)').matches){
   },{passive:true});
 }
 </script>
+  <script>
+(function() {
+  var el = document.getElementById('custom-cursor');
+  if (!el) return;
+  window.addEventListener('mousemove', function(e) {
+    el.style.left = e.clientX + 'px';
+    el.style.top  = e.clientY + 'px';
+  });
+  document.querySelectorAll('a, button, [role="button"]').forEach(function(node) {
+    node.addEventListener('mouseenter', function() { el.classList.add('hovering'); });
+    node.addEventListener('mouseleave', function() { el.classList.remove('hovering'); });
+  });
+})();
+</script>
+```
+
+---
+
+Also — in your existing `<script>` tag find this line and **delete it entirely**:
+```
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 </body>
 </html>
