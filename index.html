@@ -50,23 +50,45 @@
   .amb-1 { width:700px;height:700px; background:radial-gradient(circle,rgba(201,169,110,0.065) 0%,transparent 70%); top:-200px;right:-150px; }
   .amb-2 { width:500px;height:500px; background:radial-gradient(circle,rgba(201,169,110,0.04) 0%,transparent 70%); bottom:10%;left:-150px; }
 
-  /* ── CURSOR (desktop only) ── */
-  #cursor,#cursor-ring { display:none; }
-  @media(pointer:fine){
-    body { cursor:none; }
-    #cursor,#cursor-ring { display:block; }
-  }
-  #cursor {
-    position:fixed; width:7px;height:7px; background:var(--accent);
-    border-radius:50%; pointer-events:none; z-index:9999;
-    transform:translate(-50%,-50%); transition:width .3s,height .3s;
-  }
-  #cursor-ring {
-    position:fixed; width:32px;height:32px;
-    border:1px solid rgba(201,169,110,.35); border-radius:50%;
-    pointer-events:none; z-index:9998; transform:translate(-50%,-50%);
-    transition:width .3s,height .3s;
-  }
+ /* ── CURSOR (desktop only) ── */
+* { cursor: none !important; }
+
+#custom-cursor {
+  position: fixed;
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-bottom: 18px solid var(--accent);
+  pointer-events: none;
+  z-index: 99999;
+  transform: rotate(135deg);
+  top: 0; left: 0;
+  transition: border-bottom-color 0.2s ease;
+  filter: drop-shadow(0 0 4px rgba(201,169,110,0.5));
+}
+
+#custom-cursor-dot {
+  position: fixed;
+  width: 4px;
+  height: 4px;
+  background: var(--accent2);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 100000;
+  top: 0; left: 0;
+  transform: translate(-50%, -50%);
+  transition: transform 0.15s ease, background 0.2s ease;
+}
+
+#custom-cursor.hovering {
+  border-bottom-color: var(--accent2);
+  filter: drop-shadow(0 0 8px rgba(232,213,176,0.7));
+}
+
+#custom-cursor-dot.hovering {
+  transform: translate(-50%, -50%) scale(2);
+}
 
   /* ── NAV ── */
   nav {
@@ -498,8 +520,8 @@
 
 <div class="amb amb-1"></div>
 <div class="amb amb-2"></div>
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
+<div id="custom-cursor"></div>
+<div id="custom-cursor-dot"></div>
 
 <!-- NAV -->
 <nav>
@@ -510,7 +532,7 @@
     <li><a href="#education">Education</a></li>
     <li><a href="#extras">Extras</a></li>
     <li><a href="#works">Projects</a></li>
-    <li><a href="mailto:adityawork07@gmail.com">Contact</a></li>
+    <li><a href="mailto:rakesh0aditya@gmail.com">Contact</a></li>
   </ul>
   <div class="nav-hamburger" id="hamburger" aria-label="Menu" role="button" tabindex="0">
     <span></span><span></span><span></span>
