@@ -3,7 +3,6 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><defs><linearGradient id='g1' x1='0' y1='0' x2='0' y2='1'><stop offset='0%25' stop-color='%23e8d5b0'/><stop offset='100%25' stop-color='%23c9a96e'/></linearGradient><linearGradient id='g2' x1='0' y1='0' x2='0' y2='1'><stop offset='0%25' stop-color='%23d4bd8a'/><stop offset='100%25' stop-color='%23b8955a'/></linearGradient></defs><rect width='32' height='32' rx='7' fill='%230d0d0d'/><rect width='32' height='32' rx='7' fill='none' stroke='%23c9a96e' stroke-width='0.75' opacity='0.4'/><text x='4' y='23' font-family='Georgia,serif' font-size='17' font-weight='bold' font-style='italic' fill='url(%23g1)'>R</text><text x='17' y='23' font-family='Georgia,serif' font-size='17' font-weight='bold' font-style='italic' fill='url(%23g2)'>A</text><circle cx='15.5' cy='19' r='1' fill='%23c9a96e' opacity='0.5'/></svg>">
 <title>Rakesh Aditya — Product Manager</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -50,27 +49,24 @@
   .amb-1 { width:700px;height:700px; background:radial-gradient(circle,rgba(201,169,110,0.065) 0%,transparent 70%); top:-200px;right:-150px; }
   .amb-2 { width:500px;height:500px; background:radial-gradient(circle,rgba(201,169,110,0.04) 0%,transparent 70%); bottom:10%;left:-150px; }
 
- /* ── CURSOR ── */
-* { cursor: none !important; }
-#custom-cursor {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 14px;
-  height: 18px;
-  background: #c9a96e;
-  clip-path: polygon(0% 0%, 85% 35%, 42% 42%, 35% 85%);
-  pointer-events: none;
-  z-index: 99999;
-  filter: drop-shadow(0 1px 5px rgba(201,169,110,0.55));
-  transition: background 0.2s, filter 0.2s;
-}
-#custom-cursor.hovering {
-  background: #e8d5b0;
-  filter: drop-shadow(0 0 10px rgba(232,213,176,0.8));
-}
-#custom-cursor-dot { display: none; }
-  
+  /* ── CURSOR (desktop only) ── */
+  #cursor,#cursor-ring { display:none; }
+  @media(pointer:fine){
+    body { cursor:none; }
+    #cursor,#cursor-ring { display:block; }
+  }
+  #cursor {
+    position:fixed; width:7px;height:7px; background:var(--accent);
+    border-radius:50%; pointer-events:none; z-index:9999;
+    transform:translate(-50%,-50%); transition:width .3s,height .3s;
+  }
+  #cursor-ring {
+    position:fixed; width:32px;height:32px;
+    border:1px solid rgba(201,169,110,.35); border-radius:50%;
+    pointer-events:none; z-index:9998; transform:translate(-50%,-50%);
+    transition:width .3s,height .3s;
+  }
+
   /* ── NAV ── */
   nav {
     position:fixed; top:0;left:0;right:0; z-index:500;
@@ -501,7 +497,8 @@
 
 <div class="amb amb-1"></div>
 <div class="amb amb-2"></div>
-<div id="custom-cursor"></div>
+<div id="cursor"></div>
+<div id="cursor-ring"></div>
 
 <!-- NAV -->
 <nav>
@@ -512,7 +509,7 @@
     <li><a href="#education">Education</a></li>
     <li><a href="#extras">Extras</a></li>
     <li><a href="#works">Projects</a></li>
-    <li><a href="mailto:rakesh0aditya@gmail.com">Contact</a></li>
+    <li><a href="mailto:adityawork07@gmail.com">Contact</a></li>
   </ul>
   <div class="nav-hamburger" id="hamburger" aria-label="Menu" role="button" tabindex="0">
     <span></span><span></span><span></span>
@@ -555,10 +552,10 @@
 <!-- STATS -->
 <div class="stats-bar">
   <div class="stats-inner">
-    <div class="stat"><span class="stat-num">40×</span><span class="stat-label">GMV growth · 5 months</span></div>
-    <div class="stat"><span class="stat-num">20%</span><span class="stat-label">Traffic lift via revamp</span></div>
-    <div class="stat"><span class="stat-num">2.7M</span><span class="stat-label">Quora profile views</span></div>
-    <div class="stat"><span class="stat-num">3+</span><span class="stat-label">Years in product</span></div>
+    <div class="stat"><span class="stat-num">50×</span><span class="stat-label">GMV growth · 5 months</span></div>
+    <div class="stat"><span class="stat-num">40%</span><span class="stat-label">Traffic lift via revamp</span></div>
+    <div class="stat"><span class="stat-num">3.5M</span><span class="stat-label">Quora profile views</span></div>
+    <div class="stat"><span class="stat-num">4+</span><span class="stat-label">Years in product</span></div>
   </div>
 </div>
 
@@ -586,9 +583,9 @@
   <div class="exp-item">
     <div><div class="exp-date">Feb – Apr 2025</div><div class="exp-company">GrowMeOrganic</div></div>
     <div>
-      <div class="exp-role">Product Management</div>
+      <div class="exp-role">Product Management Intern</div>
       <ul class="exp-points">
-        <li>Intern role, Contributed to the development and launch of a new SaaS prospecting tool, focusing on core features and UX flow.</li>
+        <li>Contributed to the development and launch of a new SaaS prospecting tool, focusing on core features and UX flow.</li>
         <li>Drove landing page content strategy and feature presentation in collaboration with Design.</li>
         <li>Active participant in agile sprint planning, execution, and retrospectives across development cycles.</li>
       </ul>
@@ -753,36 +750,27 @@
 <footer>
   <div class="footer-name">Rakesh Aditya</div>
   <div class="footer-links">
-    <a href="tel:9123456789>On request</a>
-    <a href="mailto:rakesh10aditya@gmail.com">Mail</a>
-    <a href="https://www.linkedin.com/in/rakesh-aditya-194795181/" target="_blank">LinkedIn</a>
+    <a href="tel:9066294627">+91 90662 94627</a>
+    <a href="mailto:adityawork07@gmail.com">adityawork07@gmail.com</a>
+    <a href="https://linkedin.com" target="_blank">LinkedIn</a>
     <span style="color:var(--muted);font-size:13px">Bengaluru 560030</span>
   </div>
-  <div class="footer-copy">© 2025 Rakesh Aditya</div>
+  <div class="footer-copy">© 2025 Rakesh Aditya · Product Manager</div>
 </footer>
 
 <script>
 // ── Cursor (desktop only) ──
-const cur = document.getElementById('custom-cursor');
-const dot = document.getElementById('custom-cursor-dot');
-
-document.addEventListener('mousemove', (e) => {
-  cur.style.left  = (e.clientX - 8)  + 'px';
-  cur.style.top   = (e.clientY - 12) + 'px';
-  dot.style.left  = e.clientX + 'px';
-  dot.style.top   = e.clientY + 'px';
-});
-
-document.querySelectorAll('a, button, [role="button"]').forEach(el => {
-  el.addEventListener('mouseenter', () => {
-    cur.classList.add('hovering');
-    dot.classList.add('hovering');
+const cur = document.getElementById('cursor');
+const ring = document.getElementById('cursor-ring');
+if(window.matchMedia('(pointer:fine)').matches){
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{ mx=e.clientX;my=e.clientY; cur.style.left=mx+'px';cur.style.top=my+'px'; });
+  (function anim(){ rx+=(mx-rx)*.1;ry+=(my-ry)*.1; ring.style.left=rx+'px';ring.style.top=ry+'px'; requestAnimationFrame(anim); })();
+  document.querySelectorAll('a,button,.work-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ ring.style.width='52px';ring.style.height='52px'; });
+    el.addEventListener('mouseleave',()=>{ ring.style.width='32px';ring.style.height='32px'; });
   });
-  el.addEventListener('mouseleave', () => {
-    cur.classList.remove('hovering');
-    dot.classList.remove('hovering');
-  });
-});
+}
 
 // ── Mobile nav ──
 const ham = document.getElementById('hamburger');
@@ -821,26 +809,5 @@ if(!window.matchMedia('(prefers-reduced-motion:reduce)').matches){
   },{passive:true});
 }
 </script>
-  <script>
-(function() {
-  var el = document.getElementById('custom-cursor');
-  if (!el) return;
-  window.addEventListener('mousemove', function(e) {
-    el.style.left = e.clientX + 'px';
-    el.style.top  = e.clientY + 'px';
-  });
-  document.querySelectorAll('a, button, [role="button"]').forEach(function(node) {
-    node.addEventListener('mouseenter', function() { el.classList.add('hovering'); });
-    node.addEventListener('mouseleave', function() { el.classList.remove('hovering'); });
-  });
-})();
-</script>
-```
-
----
-
-Also — in your existing `<script>` tag find this line and **delete it entirely**:
-```
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
 </body>
 </html>
