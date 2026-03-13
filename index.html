@@ -50,22 +50,21 @@
   .amb-1 { width:700px;height:700px; background:radial-gradient(circle,rgba(201,169,110,0.065) 0%,transparent 70%); top:-200px;right:-150px; }
   .amb-2 { width:500px;height:500px; background:radial-gradient(circle,rgba(201,169,110,0.04) 0%,transparent 70%); bottom:10%;left:-150px; }
 
-  /* ── CURSOR (desktop only) ── */
-  #cursor,#cursor-ring { display:none; }
-  @media(pointer:fine){
-    body { cursor:none; }
-    #cursor,#cursor-ring { display:block; }
+  /* ── CURSOR ── */
+  @media(pointer:fine){ body { cursor:none; } }
+  #custom-cursor {
+    position:fixed; top:0; left:0;
+    width:14px; height:18px;
+    background:#c9a96e;
+    clip-path:polygon(0% 0%, 85% 35%, 42% 42%, 35% 85%);
+    pointer-events:none; z-index:9999;
+    filter:drop-shadow(0 1px 5px rgba(201,169,110,.5));
+    transition:background .2s,filter .2s;
+    will-change:left,top;
   }
-  #cursor {
-    position:fixed; width:7px;height:7px; background:var(--accent);
-    border-radius:50%; pointer-events:none; z-index:9999;
-    transform:translate(-50%,-50%); transition:width .3s,height .3s;
-  }
-  #cursor-ring {
-    position:fixed; width:32px;height:32px;
-    border:1px solid rgba(201,169,110,.35); border-radius:50%;
-    pointer-events:none; z-index:9998; transform:translate(-50%,-50%);
-    transition:width .3s,height .3s;
+  #custom-cursor.hovering {
+    background:#e8d5b0;
+    filter:drop-shadow(0 0 10px rgba(232,213,176,.8));
   }
 
   /* ── NAV ── */
@@ -472,6 +471,58 @@
   .footer-links a:hover { color:var(--accent); }
   .footer-copy { font-size:11px; color:rgba(90,86,82,.35); letter-spacing:.12em; text-transform:uppercase; }
 
+
+  /* ── PRESENTATIONS ── */
+  .pptx-grid {
+    display:grid;
+    grid-template-columns:1fr;
+    gap:36px;
+    max-width:900px;
+  }
+  .pptx-card {
+    border:1px solid var(--border); border-radius:6px;
+    overflow:hidden; background:var(--bg2); position:relative;
+    opacity:0; transform:translateY(28px);
+    transition:opacity .7s ease,transform .7s ease,border-color .3s;
+  }
+  .pptx-card::before {
+    content:''; position:absolute; top:0;left:0;right:0; height:1px;
+    background:linear-gradient(to right,transparent,rgba(201,169,110,.3),transparent); z-index:2;
+  }
+  .pptx-card:hover { border-color:rgba(201,169,110,.22); }
+  .pptx-card.visible { opacity:1; transform:translateY(0); }
+  .pptx-header {
+    padding:20px 24px 16px;
+    border-bottom:1px solid var(--border);
+  }
+  .pptx-tag { font-size:10px; letter-spacing:.22em; text-transform:uppercase; color:var(--accent); margin-bottom:6px; display:block; }
+  .pptx-title { font-family:'Playfair Display',serif; font-size:clamp(16px,1.8vw,20px); font-weight:700; color:var(--highlight); line-height:1.2; }
+  .pptx-subtitle { font-size:12.5px; color:var(--muted); margin-top:4px; line-height:1.5; }
+
+  .pptx-viewer {
+    position:relative; width:100%; padding-top:62.5%; background:#060606;
+  }
+  .pptx-viewer iframe {
+    position:absolute; inset:0; width:100%; height:100%; border:none; display:block;
+  }
+  .pptx-loader {
+    position:absolute; inset:0; display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:12px;
+    background:#060606; z-index:1; transition:opacity .5s;
+  }
+  .pptx-loader.gone { opacity:0; pointer-events:none; }
+  .pptx-spin {
+    width:28px; height:28px; border-radius:50%;
+    border:2px solid rgba(201,169,110,.15); border-top-color:var(--accent);
+    animation:spin .8s linear infinite;
+  }
+  @keyframes spin { to { transform:rotate(360deg); } }
+  .pptx-spin-label { font-size:11px; color:var(--muted); letter-spacing:.1em; }
+  .pptx-foot {
+    padding:12px 24px; display:flex; align-items:center; justify-content:space-between;
+    border-top:1px solid var(--border); font-size:12px; color:var(--muted);
+  }
+
   /* ── ANIMATIONS ── */
   @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
   @keyframes fadeIn { from{opacity:0} to{opacity:1} }
@@ -498,8 +549,7 @@
 
 <div class="amb amb-1"></div>
 <div class="amb amb-2"></div>
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
+<div id="custom-cursor"></div>
 
 <!-- NAV -->
 <nav>
@@ -509,8 +559,9 @@
     <li><a href="#skills">Skills</a></li>
     <li><a href="#education">Education</a></li>
     <li><a href="#extras">Extras</a></li>
+    <li><a href="#presentations">Decks</a></li>
     <li><a href="#works">Projects</a></li>
-    <li><a href="mailto:rakesh0aditya@gmail.com">Contact</a></li>
+    <li><a href="/cdn-cgi/l/email-protection#87f5e6ece2f4efb7e6e3eef3fee6c7e0eae6eeeba9e4e8ea">Contact</a></li>
   </ul>
   <div class="nav-hamburger" id="hamburger" aria-label="Menu" role="button" tabindex="0">
     <span></span><span></span><span></span>
@@ -527,7 +578,7 @@
       <div class="hero-divider"></div>
       <p class="hero-desc">Founding-team experience at fintech startups. Group-level product leadership across B2B enterprise. I turn ambiguous problems into crisp roadmaps, 50× GMV growth, and things users actually return to.</p>
       <div class="hero-cta">
-        <a href="mailto:rakesh0aditya@gmail.com" class="btn-primary">Get in touch</a>
+        <a href="/cdn-cgi/l/email-protection#83f1e2e8e6f0ebb3e2e7eaf7fae2c3e4eee2eaefade0ecee" class="btn-primary">Get in touch</a>
         <a href="#experience" class="btn-ghost">View work</a>
       </div>
       <div class="hero-meta">
@@ -747,12 +798,84 @@
   </div>
 </div>
 
+
+<hr class="divider">
+
+<!-- PRESENTATIONS -->
+<div class="section-full" id="presentations">
+  <div class="section-inner">
+    <div class="section-eyebrow">Presentations</div>
+    <div class="heading-underline">
+      <h2 class="section-heading">Decks I've <em>built</em></h2>
+    </div>
+    <div class="pptx-grid">
+
+      <!-- Portfolio PPTX -->
+      <div class="pptx-card">
+        <div class="pptx-header">
+          <div>
+            <span class="pptx-tag">Portfolio · Product Strategy</span>
+            <div class="pptx-title">Portfolio Presentation</div>
+            <div class="pptx-subtitle">An overview of my product journey, key decisions, and outcomes across roles.</div>
+          </div>
+
+        </div>
+        <div class="pptx-viewer">
+          <div class="pptx-loader" id="pl1">
+            <div class="pptx-spin"></div>
+            <span class="pptx-spin-label">Loading slides…</span>
+          </div>
+          <iframe
+            src="https://view.officeapps.live.com/op/embed.aspx?src=https://ik.imagekit.io/attentionaid/training%20ppts/Portfolio.pptx"
+            allowfullscreen
+            onload="document.getElementById('pl1').classList.add('gone')"
+            title="Portfolio Presentation">
+          </iframe>
+        </div>
+        <div class="pptx-foot">
+          <span>Portfolio · Product Manager</span>
+          <span style="color:var(--accent);font-size:11px;letter-spacing:.08em">PPTX</span>
+        </div>
+      </div>
+
+      <!-- Training PPTX -->
+      <div class="pptx-card">
+        <div class="pptx-header">
+          <div>
+            <span class="pptx-tag">Training · Product Education</span>
+            <div class="pptx-title">Product Teams Learning</div>
+            <div class="pptx-subtitle">Training deck built to onboard and upskill product interns across my product journey.</div>
+          </div>
+
+        </div>
+        <div class="pptx-viewer">
+          <div class="pptx-loader" id="pl2">
+            <div class="pptx-spin"></div>
+            <span class="pptx-spin-label">Loading slides…</span>
+          </div>
+          <iframe
+            src="https://view.officeapps.live.com/op/embed.aspx?src=https://ik.imagekit.io/attentionaid/training%20ppts/Product%20Teams%20Learning.pptx"
+            allowfullscreen
+            onload="document.getElementById('pl2').classList.add('gone')"
+            title="Product Teams Learning">
+          </iframe>
+        </div>
+        <div class="pptx-foot">
+          <span>Training Material · Interns</span>
+          <span style="color:var(--accent);font-size:11px;letter-spacing:.08em">PPTX</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="footer-name">Rakesh Aditya</div>
   <div class="footer-links">
     <a href="tel:9123456789">On request</a>
-    <a href="mailto:rakesh0aditya@gmail.com">rakesh0aditya@gmail.com</a>
+    <a href="/cdn-cgi/l/email-protection#3f4d5e545a4c570f5e5b564b465e7f58525e5653115c5052"><span class="__cf_email__" data-cfemail="9be9faf0fee8f3abfafff2efe2fadbfcf6faf2f7b5f8f4f6">[email&#160;protected]</span></a>
     <a href="https://linkedin.com" target="_blank">LinkedIn</a>
     <span style="color:var(--muted);font-size:13px">Bengaluru 560030</span>
   </div>
@@ -760,55 +883,59 @@
 </footer>
 
 <script>
-// ── Cursor (desktop only) ──
-const cur = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-if(window.matchMedia('(pointer:fine)').matches){
-  let mx=0,my=0,rx=0,ry=0;
-  document.addEventListener('mousemove',e=>{ mx=e.clientX;my=e.clientY; cur.style.left=mx+'px';cur.style.top=my+'px'; });
-  (function anim(){ rx+=(mx-rx)*.1;ry+=(my-ry)*.1; ring.style.left=rx+'px';ring.style.top=ry+'px'; requestAnimationFrame(anim); })();
-  document.querySelectorAll('a,button,.work-card').forEach(el=>{
-    el.addEventListener('mouseenter',()=>{ ring.style.width='52px';ring.style.height='52px'; });
-    el.addEventListener('mouseleave',()=>{ ring.style.width='32px';ring.style.height='32px'; });
+// ── Cursor ──
+(function(){
+  var el = document.getElementById('custom-cursor');
+  if(!el) return;
+  if(!window.matchMedia('(pointer:fine)').matches) { el.style.display='none'; return; }
+  window.addEventListener('mousemove', function(e){
+    el.style.left = e.clientX + 'px';
+    el.style.top  = e.clientY + 'px';
+  }, {passive:true});
+  document.querySelectorAll('a,button,[role=button]').forEach(function(n){
+    n.addEventListener('mouseenter',function(){ el.classList.add('hovering'); });
+    n.addEventListener('mouseleave',function(){ el.classList.remove('hovering'); });
   });
-}
+})();
 
 // ── Mobile nav ──
-const ham = document.getElementById('hamburger');
-const navLinks = document.getElementById('navLinks');
-ham.addEventListener('click',()=>{ navLinks.classList.toggle('open'); });
-ham.addEventListener('keydown',e=>{ if(e.key==='Enter') navLinks.classList.toggle('open'); });
-navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLinks.classList.remove('open')));
+var ham = document.getElementById('hamburger');
+var navLinks = document.getElementById('navLinks');
+if(ham && navLinks){
+  ham.addEventListener('click',function(){ navLinks.classList.toggle('open'); });
+  ham.addEventListener('keydown',function(e){ if(e.key==='Enter') navLinks.classList.toggle('open'); });
+  navLinks.querySelectorAll('a').forEach(function(a){ a.addEventListener('click',function(){ navLinks.classList.remove('open'); }); });
+}
 
 // ── Scroll reveal ──
-const obs = new IntersectionObserver(entries=>{
-  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('visible'); });
+var obs = new IntersectionObserver(function(entries){
+  entries.forEach(function(e){ if(e.isIntersecting) e.target.classList.add('visible'); });
 },{threshold:.1,rootMargin:'0px 0px -40px 0px'});
-document.querySelectorAll('.exp-item,.extra-card,.edu-item,.stat,.work-card,.heading-underline').forEach(el=>obs.observe(el));
+document.querySelectorAll('.exp-item,.extra-card,.edu-item,.stat,.work-card,.pptx-card,.heading-underline').forEach(function(el){ obs.observe(el); });
 
 // ── Stagger skills ──
-const skillObs = new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
+var skillObs = new IntersectionObserver(function(entries){
+  entries.forEach(function(entry){
     if(entry.isIntersecting){
-      entry.target.querySelectorAll('.skill-tag').forEach((tag,i)=>{
-        setTimeout(()=>tag.classList.add('visible'),i*45);
+      entry.target.querySelectorAll('.skill-tag').forEach(function(tag,i){
+        setTimeout(function(){ tag.classList.add('visible'); }, i*45);
       });
     }
   });
 },{threshold:.15});
-document.querySelectorAll('.skills-grid').forEach(el=>skillObs.observe(el));
+document.querySelectorAll('.skills-grid').forEach(function(el){ skillObs.observe(el); });
 
-// ── Hero parallax (reduce motion check) ──
+// ── Hero parallax ──
 if(!window.matchMedia('(prefers-reduced-motion:reduce)').matches){
-  window.addEventListener('scroll',()=>{
-    const s=window.pageYOffset;
-    const name=document.querySelector('.hero-name');
-    if(name&&s<window.innerHeight){
-      name.style.transform=`translateY(${s*.08}px)`;
-      name.style.opacity=String(1-(s/700));
+  window.addEventListener('scroll',function(){
+    var s = window.pageYOffset;
+    var name = document.querySelector('.hero-name');
+    if(name && s < window.innerHeight){
+      name.style.transform = 'translateY('+(s*.08)+'px)';
+      name.style.opacity = String(1-(s/700));
     }
   },{passive:true});
 }
 </script>
 </body>
-</html>
+                                        </html>
